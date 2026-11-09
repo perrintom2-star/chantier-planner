@@ -1,0 +1,233 @@
+[
+  {
+    "nom": "A. Plantation d’une haie (25 ml, ~6 j)",
+    "taches": [
+      {
+        "id": "A1",
+        "nom": "Implantation, repérage des réseaux",
+        "duree_jours": 0.5,
+        "effectif": 1,
+        "materiel": "Cordeau, piquets, plans des réseaux",
+        "apres": []
+      },
+      {
+        "id": "A2",
+        "nom": "Ouverture de la tranchée ou des potets",
+        "duree_jours": 1,
+        "effectif": 2,
+        "materiel": "Mini-pelle, tarière ou bêches",
+        "apres": ["A1"]
+      },
+      {
+        "id": "A3",
+        "nom": "Amendement du fond de plantation",
+        "duree_jours": 0.5,
+        "effectif": 2,
+        "materiel": "Terreau, compost",
+        "apres": ["A2"]
+      },
+      {
+        "id": "A4",
+        "nom": "Toile de paillage (opt.)",
+        "duree_jours": 1,
+        "effectif": 2,
+        "materiel": "Toile, agrafes",
+        "apres": ["A3"]
+      },
+      {
+        "id": "A5",
+        "nom": "Plantation",
+        "duree_jours": 1.5,
+        "effectif": 2,
+        "materiel": "Plants, sécateur, brouette",
+        "apres": ["A4"]
+      },
+      {
+        "id": "A6",
+        "nom": "Tuteurage",
+        "duree_jours": 0.5,
+        "effectif": 2,
+        "materiel": "Tuteurs, attaches",
+        "apres": ["A5"]
+      },
+      {
+        "id": "A7",
+        "nom": "Arrosage de plantation",
+        "duree_jours": 0.5,
+        "effectif": 1,
+        "materiel": "Tuyau ou citerne",
+        "apres": ["A5"]
+      },
+      {
+        "id": "A8",
+        "nom": "Paillage",
+        "duree_jours": 0.5,
+        "effectif": 2,
+        "materiel": "Paillis, brouettes",
+        "apres": ["A6", "A7"]
+      },
+      {
+        "id": "A9",
+        "nom": "Nettoyage",
+        "duree_jours": 0.5,
+        "effectif": 1,
+        "materiel": "Balai, brouette",
+        "apres": ["A8"]
+      }
+    ]
+  },
+  {
+    "nom": "B. Arrosage automatique (300 m², ~6 j)",
+    "taches": [
+      {
+        "id": "B1",
+        "nom": "Plan d’implantation, mesure pression et débit",
+        "duree_jours": 0.5,
+        "effectif": 1,
+        "materiel": "Manomètre, seau, chronomètre",
+        "apres": []
+      },
+      {
+        "id": "B2",
+        "nom": "Raccordement au point d’eau, vanne, regard",
+        "duree_jours": 1,
+        "effectif": 2,
+        "materiel": "Raccords, vanne, regard",
+        "apres": ["B1"]
+      },
+      {
+        "id": "B3",
+        "nom": "Tranchées",
+        "duree_jours": 1.5,
+        "effectif": 2,
+        "materiel": "Trancheuse, pelles",
+        "apres": ["B1"]
+      },
+      {
+        "id": "B4",
+        "nom": "Pose des tuyaux et électrovannes",
+        "duree_jours": 1,
+        "effectif": 2,
+        "materiel": "Tube PE, raccords, électrovannes",
+        "apres": ["B2", "B3"]
+      },
+      {
+        "id": "B5",
+        "nom": "Pose des arroseurs et têtes",
+        "duree_jours": 1,
+        "effectif": 2,
+        "materiel": "Arroseurs, buses",
+        "apres": ["B4"]
+      },
+      {
+        "id": "B6",
+        "nom": "Câblage du programmateur",
+        "duree_jours": 0.5,
+        "effectif": 1,
+        "materiel": "Câble, programmateur",
+        "apres": ["B4"]
+      },
+      {
+        "id": "B7",
+        "nom": "Essai en pression, réglages",
+        "duree_jours": 0.5,
+        "effectif": 2,
+        "materiel": "Manomètre",
+        "apres": ["B5", "B6"]
+      },
+      {
+        "id": "B8",
+        "nom": "Rebouchage des tranchées",
+        "duree_jours": 1,
+        "effectif": 2,
+        "materiel": "Pelles, rouleau ou pilon",
+        "apres": ["B7"]
+      },
+      {
+        "id": "B9",
+        "nom": "Programmation finale, explications au client",
+        "duree_jours": 0.5,
+        "effectif": 1,
+        "materiel": "Programmateur",
+        "apres": ["B8"]
+      }
+    ]
+  },
+  {
+    "nom": "C. Massif arbustif avec paillage (20 m², ~5,5 j)",
+    "taches": [
+      {
+        "id": "C1",
+        "nom": "Plan de plantation, implantation",
+        "duree_jours": 0.5,
+        "effectif": 1,
+        "materiel": "Piquets, ruban, plan",
+        "apres": []
+      },
+      {
+        "id": "C2",
+        "nom": "Désherbage, décaissement",
+        "duree_jours": 1,
+        "effectif": 2,
+        "materiel": "Bêches, brouettes",
+        "apres": ["C1"]
+      },
+      {
+        "id": "C3",
+        "nom": "Travail du sol, amendement",
+        "duree_jours": 0.5,
+        "effectif": 2,
+        "materiel": "Fourches, compost",
+        "apres": ["C2"]
+      },
+      {
+        "id": "C4",
+        "nom": "Bordure ou géotextile (opt.)",
+        "duree_jours": 0.5,
+        "effectif": 2,
+        "materiel": "Bordure, géotextile, agrafes",
+        "apres": ["C3"]
+      },
+      {
+        "id": "C5",
+        "nom": "Disposition des plants",
+        "duree_jours": 0.5,
+        "effectif": 2,
+        "materiel": "Plants en godets ou conteneurs",
+        "apres": ["C3"]
+      },
+      {
+        "id": "C6",
+        "nom": "Plantation",
+        "duree_jours": 1,
+        "effectif": 2,
+        "materiel": "Transplantoir, sécateur",
+        "apres": ["C4", "C5"]
+      },
+      {
+        "id": "C7",
+        "nom": "Arrosage de plantation",
+        "duree_jours": 0.5,
+        "effectif": 1,
+        "materiel": "Tuyau, arrosoir",
+        "apres": ["C6"]
+      },
+      {
+        "id": "C8",
+        "nom": "Paillage",
+        "duree_jours": 0.5,
+        "effectif": 2,
+        "materiel": "Paillis, brouette",
+        "apres": ["C6"]
+      },
+      {
+        "id": "C9",
+        "nom": "Nettoyage",
+        "duree_jours": 0.5,
+        "effectif": 1,
+        "materiel": "Balai, brouette",
+        "apres": ["C7", "C8"]
+      }
+    ]
+  }
+]
