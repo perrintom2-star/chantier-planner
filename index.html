@@ -1,1 +1,432 @@
-<h1>Bonjour, voici notre application de ggg</h1>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Planificateur de Chantiers Paysagers</title>
+  <style>
+    :root {
+      --primary: #2e7d32;
+      --primary-hover: #1b5e20;
+      --bg: #f4f6f8;
+      --surface: #ffffff;
+      --text: #1a252c;
+      --border: #cfd8dc;
+      --error-bg: #ffebee;
+      --error-text: #c62828;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      padding: 1rem;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    header {
+      background: var(--primary);
+      color: white;
+      padding: 1.25rem;
+      border-radius: 8px;
+    }
+
+    h1 { font-size: 1.5rem; font-weight: 600; }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.25rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+
+    .card h2 {
+      font-size: 1.1rem;
+      margin-bottom: 1rem;
+      color: var(--primary);
+      border-bottom: 2px solid #e8f5e9;
+      padding-bottom: 0.4rem;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    @media (min-width: 600px) {
+      .form-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+
+    label { font-size: 0.85rem; font-weight: 600; color: #455a64; }
+
+    input[type="text"], select {
+      padding: 0.6rem;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      font-size: 0.95rem;
+      width: 100%;
+    }
+
+    input[type="number"] {
+      padding: 0.4rem;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      width: 70px;
+      text-align: center;
+    }
+
+    .task-item {
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 0.85rem;
+      margin-bottom: 0.75rem;
+      background: #fafafa;
+      transition: background 0.2s;
+    }
+
+    .task-item.disabled {
+      opacity: 0.55;
+      background: #eee;
+    }
+
+    .task-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+    }
+
+    .task-header input[type="checkbox"] {
+      width: 1.2rem;
+      height: 1.2rem;
+      margin-top: 0.2rem;
+      cursor: pointer;
+    }
+
+    .task-title-area { flex: 1; }
+
+    .task-id {
+      display: inline-block;
+      background: #e8f5e9;
+      color: var(--primary);
+      font-weight: bold;
+      font-size: 0.75rem;
+      padding: 0.1rem 0.4rem;
+      border-radius: 4px;
+      margin-right: 0.4rem;
+    }
+
+    .task-name { font-weight: 600; font-size: 0.95rem; }
+
+    .task-details {
+      margin-top: 0.6rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      align-items: center;
+      font-size: 0.85rem;
+      color: #546e7a;
+    }
+
+    .task-inputs {
+      display: flex;
+      gap: 0.75rem;
+      align-items: center;
+    }
+
+    .subtasks-list {
+      margin-top: 0.5rem;
+      margin-left: 2rem;
+      padding-left: 0.5rem;
+      border-left: 2px solid var(--border);
+      font-size: 0.85rem;
+    }
+
+    .subtask-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.15rem 0;
+    }
+
+    .summary-box {
+      background: #e8f5e9;
+      border: 1px solid #c8e6c9;
+      border-radius: 6px;
+      padding: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 600;
+      font-size: 1.1rem;
+    }
+
+    .error-box {
+      background: var(--error-bg);
+      color: var(--error-text);
+      border: 1px solid #ef9a9a;
+      padding: 1rem;
+      border-radius: 6px;
+      white-space: pre-wrap;
+      font-family: monospace;
+      font-size: 0.9rem;
+    }
+
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <h1>Planificateur de Chantiers Paysagers</h1>
+    </header>
+
+    <div id="errorContainer" class="error-box hidden"></div>
+
+    <main id="appContent" class="hidden">
+      <section class="card">
+        <h2>1. Sélection du chantier</h2>
+        <div class="form-group">
+          <label for="chantierSelect">Chantier type</label>
+          <select id="chantierSelect"></select>
+        </div>
+      </section>
+
+      <section class="card" style="margin-top: 1.5rem;">
+        <h2>2. Informations Générales</h2>
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="entrepriseInput">Entreprise / Intervenant</label>
+            <input type="text" id="entrepriseInput" placeholder="Nom de l'entreprise">
+          </div>
+          <div class="form-group">
+            <label for="clientInput">Client / Localisation</label>
+            <input type="text" id="clientInput" placeholder="Nom du client ou adresse">
+          </div>
+        </div>
+      </section>
+
+      <section class="card" style="margin-top: 1.5rem;">
+        <h2>3. Planification des tâches</h2>
+        <div id="tasksContainer"></div>
+      </section>
+
+      <div class="summary-box">
+        <span>Durée totale cumulée :</span>
+        <span id="totalDuration">0 jour</span>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    let chantiersData = [];
+    let currentChantier = null;
+    let taskState = {};
+
+    document.addEventListener("DOMContentLoaded", () => {
+      fetchData();
+    });
+
+    function showError(message) {
+      const errorContainer = document.getElementById("errorContainer");
+      errorContainer.innerText = message;
+      errorContainer.classList.remove("hidden");
+    }
+
+    async function fetchData() {
+      try {
+        const response = await fetch("chantiers.json");
+        
+        if (!response.ok) {
+          throw new Error(`Impossible de charger 'chantiers.json' (Code HTTP: ${response.status} - ${response.statusText}). Vérifiez la présence et l'emplacement du fichier.`);
+        }
+
+        const rawText = await response.text();
+        
+        try {
+          chantiersData = JSON.parse(rawText);
+        } catch (jsonErr) {
+          const match = jsonErr.message.match(/line (\d+) column (\d+)/i) || jsonErr.message.match(/position (\d+)/i);
+          let errorDetails = `Erreur de syntaxe dans le fichier JSON.\nMessage : ${jsonErr.message}`;
+          if (match) {
+            errorDetails += `\nEmplacement repéré : ${match[0]}`;
+          }
+          throw new Error(errorDetails);
+        }
+
+        if (!Array.isArray(chantiersData) || chantiersData.length === 0) {
+          throw new Error("Le fichier 'chantiers.json' ne contient aucune donnée valide ou la structure est incorrecte.");
+        }
+
+        initApp();
+      } catch (err) {
+        showError(`Erreur d'initialisation :\n${err.message}`);
+      }
+    }
+
+    function computeTaskDuration(task) {
+      if (task.sous_taches && Array.isArray(task.sous_taches) && task.sous_taches.length > 0) {
+        return task.sous_taches.reduce((acc, st) => acc + (Number(st.duree_jours) || 0), 0);
+      }
+      return Number(task.duree_jours) || 0;
+    }
+
+    function initApp() {
+      document.getElementById("appContent").classList.remove("hidden");
+      const select = document.getElementById("chantierSelect");
+      select.innerHTML = "";
+
+      chantiersData.forEach((c, index) => {
+        const opt = document.createElement("option");
+        opt.value = index;
+        opt.textContent = c.nom;
+        select.appendChild(opt);
+      });
+
+      select.addEventListener("change", (e) => loadChantier(e.target.value));
+      loadChantier(0);
+    }
+
+    function loadChantier(index) {
+      currentChantier = chantiersData[index];
+      taskState = {};
+
+      if (currentChantier && currentChantier.taches) {
+        currentChantier.taches.forEach(t => {
+          taskState[t.id] = {
+            active: true,
+            duree: computeTaskDuration(t),
+            effectif: Number(t.effectif) || 1,
+            hasSubtasks: Boolean(t.sous_taches && t.sous_taches.length > 0)
+          };
+        });
+      }
+
+      renderTasks();
+    }
+
+    function renderTasks() {
+      const container = document.getElementById("tasksContainer");
+      container.innerHTML = "";
+
+      if (!currentChantier || !currentChantier.taches) return;
+
+      currentChantier.taches.forEach(t => {
+        const state = taskState[t.id];
+        const item = document.createElement("div");
+        item.className = `task-item ${state.active ? "" : "disabled"}`;
+
+        let apresText = "";
+        if (t.apres && t.apres.length > 0) {
+          apresText = `<span><strong>Dépend de :</strong> ${t.apres.join(", ")}</span>`;
+        }
+
+        let materielText = "";
+        if (t.materiel) {
+          materielText = `<span><strong>Matériel :</strong> ${t.materiel}</span>`;
+        }
+
+        let commentText = "";
+        if (t.commentaire) {
+          commentText = `<div><em>${t.commentaire}</em></div>`;
+        }
+
+        let subtasksHtml = "";
+        if (t.sous_taches && t.sous_taches.length > 0) {
+          subtasksHtml = `
+            <div class="subtasks-list">
+              <strong>Sous-tâches :</strong>
+              ${t.sous_taches.map(st => `
+                <div class="subtask-item">
+                  <span>- ${st.nom}</span>
+                  <span>${st.duree_jours} j</span>
+                </div>
+              `).join("")}
+            </div>
+          `;
+        }
+
+        item.innerHTML = `
+          <div class="task-header">
+            <input type="checkbox" id="check_${t.id}" ${state.active ? "checked" : ""}>
+            <div class="task-title-area">
+              <label for="check_${t.id}">
+                <span class="task-id">${t.id}</span>
+                <span class="task-name">${t.nom}</span>
+              </label>
+              <div class="task-details">
+                ${apresText}
+                ${materielText}
+              </div>
+              ${commentText}
+              ${subtasksHtml}
+            </div>
+            <div class="task-inputs">
+              <div class="form-group">
+                <label>Durée (j)</label>
+                <input type="number" id="duree_${t.id}" value="${state.duree}" step="0.5" min="0" ${state.hasSubtasks || !state.active ? "disabled" : ""}>
+              </div>
+              <div class="form-group">
+                <label>Pers.</label>
+                <input type="number" id="eff_${t.id}" value="${state.effectif}" step="1" min="1" ${!state.active ? "disabled" : ""}>
+              </div>
+            </div>
+          </div>
+        `;
+
+        container.appendChild(item);
+
+        const checkEl = item.querySelector(`#check_${t.id}`);
+        checkEl.addEventListener("change", (e) => {
+          taskState[t.id].active = e.target.checked;
+          renderTasks();
+        });
+
+        const dureeEl = item.querySelector(`#duree_${t.id}`);
+        if (dureeEl && !state.hasSubtasks) {
+          dureeEl.addEventListener("change", (e) => {
+            taskState[t.id].duree = Math.max(0, parseFloat(e.target.value) || 0);
+            updateTotal();
+          });
+        }
+
+        const effEl = item.querySelector(`#eff_${t.id}`);
+        if (effEl) {
+          effEl.addEventListener("change", (e) => {
+            taskState[t.id].effectif = Math.max(1, parseInt(e.target.value, 10) || 1);
+          });
+        }
+      });
+
+      updateTotal();
+    }
+
+    function updateTotal() {
+      let total = 0;
+      Object.values(taskState).forEach(st => {
+        if (st.active) {
+          total += st.duree;
+        }
+      });
+      document.getElementById("totalDuration").textContent = `${total} jour${total > 1 ? "s" : ""}`;
+    }
+  </script>
+</body>
+</html>
